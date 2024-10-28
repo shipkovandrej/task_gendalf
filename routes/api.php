@@ -13,4 +13,6 @@ Route::middleware('auth:sanctum')->get('/logout', [AuthController::class, 'logou
 
 Route::middleware('auth:sanctum')->get('/profile', [AuthController::class, 'profile']);
 
-Route::middleware('auth:sanctum')->get('/', [GoodController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/items', [GoodController::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/items/{item_id}', [GoodController::class, 'show']);
