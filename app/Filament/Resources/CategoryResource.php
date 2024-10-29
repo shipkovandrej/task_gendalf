@@ -27,6 +27,7 @@ class CategoryResource extends Resource
                 TextInput::make('id')
                     ->numeric()
                     ->disabled()
+                    ->visibleOn('edit')
                     ->placeholder('Для получения id записи, её сперва нужно создать')
                     ->default(request()->route()->parameter('record'))
                     ->label('id'),
@@ -41,9 +42,9 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+
+                Tables\ColumnTables\Columns\TextColumn::make('id')
+                    ->sortable(),s\TextColumn::make('name')
                     ->label('название категории')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

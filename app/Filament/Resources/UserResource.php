@@ -31,14 +31,17 @@ class UserResource extends Resource
                     ->disabled()
                     ->placeholder('Для получения id записи, её сперва нужно создать')
                     ->default(request()->route()->parameter('record'))
+                    ->visibleOn('edit')
                     ->label('id'),
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->string()
                     ->label('Имя')
                     ->maxLength(100),
                 Forms\Components\TextInput::make('email')
                     ->required()
                     ->email()
+                    ->unique()
                     ->label('Почта')
                     ->maxLength(255),
                 TextInput::make('password')

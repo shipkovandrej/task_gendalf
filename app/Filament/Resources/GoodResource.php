@@ -28,6 +28,7 @@ class GoodResource extends Resource
                 TextInput::make('id')
                     ->numeric()
                     ->disabled()
+                    ->visibleOn('edit')
                     ->placeholder('Для получения id записи, её сперва нужно создать')
                     ->default(request()->route()->parameter('record'))
                     ->label('id'),
@@ -59,6 +60,7 @@ class GoodResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Название')

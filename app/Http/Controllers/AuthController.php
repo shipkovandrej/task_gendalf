@@ -11,7 +11,7 @@ class AuthController extends Controller
     public function registration(Request $request)
     {
         $fields = $request->validate([
-            'name' => 'required|string|unique:',
+            'name' => 'required|string',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|confirmed',
         ]);
@@ -39,11 +39,8 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        //Check email
-
         $user = User::where('email', $fields['email'])->first();
 
-        //Check Password
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
                 'message' => 'Invalid Credentials'
