@@ -1,66 +1,58 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Деплой проекта
+1. Проверить необходимое окружение (Все зависимости в composer.json). Для установки всех зависимостей запустить команду: ```composer update```
+2. Проверить подключение к серверу с базой данных в файле .env:
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=task
+DB_USERNAME=root
+DB_PASSWORD=
+```
+В моем случае:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+mysql - субд<br/>
+HOST и PORT, полученные в PhpMyAdmin(Проект запускаю на локалке через php artisan serve, сервер с бд - OpenServer)<br/>
+task - имя базы данных<br/>
+имя пользователя и пароль для доступа к бд<br/>
 
-## About Laravel
+При вводе корректных данных бд может выводится ошибка о том, что нет связи с бд. В таком случае нужно применить команду  
+```php artisan config:clear```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+если все сделано правильно на этот этапе laravel должен выдать ошибку "Base table or view not found" и предложение о запуске миграции  
+Запуск миграции сразу с сидером:
+``` php artisan migrate:fresh --seed --seeder=MySeeder ```  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+В файле MySeeder.php подписаны комментариями товары, категории, админы, и клменты(Пароли оставил в сидере для удобства). В нем идет все необходимое кроме допуска к категориям у пользователей(Их нужно ставить вручную в админке)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Использование сервиса
+Доступ к админке по адресу /admin (Если запускать на локалке, то полный адрес будет http://127.0.0.1:8000/admin)  
+Использовать для входа почту и пароль любого админа из сидера.  
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Categories - категории  
+Clients - партнеры  
+Goods - товары  
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Допустимые категории ставятся при редактировании партнера во вкладке clients
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Для выполнения запросов к api нужно быть авторизованым, авторизация осуществляется по токену.  
+Для получения токена нужно по адресу http://127.0.0.1:8000/api/login отправить post запрос с логином и паролем партнера(в моем случае отправлял через postman)
+```
+{
+    "login": "user5@example.com",
+    "password": "aaaeee"
+}
+```
+## методы
 
-## Laravel Sponsors
+post registration - регистрация пользователя  
+post api/login - получение токена для авторизации  
+get api/logout - удаление активного токена(разлогиниться)  
+get api/profile - вывод информации об активном пользователе  
+get api/items - выводит все товары в соответствии категорий пользователя, которые ему доступны   
+get api/items/{item_id} - вывод товара с уникальным номером item_id при условии, что его категория доступна пользователю  
+get api/categories - выводит все категории, которые доступны пользователю   
+get api/categories/{category_id} - вывод категории с уникальным номером category_id при условии, что она доступна пользователю  
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
