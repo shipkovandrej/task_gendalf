@@ -44,7 +44,7 @@ Goods - товары
     "password": "aaaeee"
 }
 ```
-## методы
+## Методы
 
 post registration - регистрация пользователя  
 post api/login - получение токена для авторизации  
@@ -57,4 +57,9 @@ get api/categories - выводит все категории, которые д
 get api/categories?name=string - то же самое, но с фильтрацией по названию 
 get api/categories/{category_id} - вывод категории с уникальным номером category_id при условии, что она доступна пользователю  
 
+## Пример работы
+![1](https://github.com/user-attachments/assets/e5602811-5566-482f-992f-b6f8b14fbac7)
+<hr>  
+
+![2](https://github.com/user-attachments/assets/c3cfc3ff-0f91-4593-9162-f2c1ae23873e)
 
